@@ -34,4 +34,4 @@ jobs:
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release create "${{ github.ref_name }}" ".\Fit2Gpx-${{ github.ref_name }}-win-x64.zip" --title "Fit2Gpx ${{ github.ref_name }}" --generate-notes
+        run: gh release create "${{ github.ref_name }}" ".\Fit2Gpx-${{ github.ref_name }}-win-x64.zip" --title "Fit2Gpx ${{ github.ref_name }}" --notes-file .\.github\release-notes.md --generate-notes
