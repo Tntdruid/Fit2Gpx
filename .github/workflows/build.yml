@@ -1,0 +1,33 @@
+name: Build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore .\Fit2Gpx.csproj
+
+      - name: Build
+        run: dotnet build .\Fit2Gpx.csproj --configuration Release --no-restore
+
+      - name: Publish Windows app
+        run: dotnet publish .\Fit2Gpx.csproj --configuration Release --runtime win-x64 --self-contained true --no-restore --output .\publish\win-x64
+
+      - name: Upload Windows artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Fit2Gpx-win-x64
+          path: .\publish\win-x64

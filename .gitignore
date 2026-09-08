@@ -1,0 +1,14 @@
+## Build output
+bin/
+obj/
+publish/
+
+## Visual Studio / VS Code user files
+.vs/
+*.user
+*.suo
+*.userosscache
+
+## OS files
+.DS_Store
+Thumbs.db

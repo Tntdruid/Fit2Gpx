@@ -1,0 +1,43 @@
+﻿<Window x:Class="Fit2Gpx.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="FIT til GPX" Height="560" Width="760" MinHeight="440" MinWidth="560"
+        Background="#F5F7F4">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="18,9" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="#FFFFFF" />
+            <Setter Property="Background" Value="#176B5B" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+    </Window.Resources>
+    <Grid Margin="32">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="18" />
+            <RowDefinition Height="190" />
+            <RowDefinition Height="22" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel>
+            <TextBlock Text="FIT til GPX" FontFamily="Georgia" FontSize="30" FontWeight="Bold" Foreground="#17342E" />
+            <TextBlock Text="Konvertér Garmin-aktiviteter til GPX-filer" Margin="0,5,0,0" FontSize="14" Foreground="#55706A" />
+        </StackPanel>
+
+        <Border Grid.Row="2" x:Name="DropZone" Background="#E7F0EC" BorderBrush="#83A99C" BorderThickness="2"
+                AllowDrop="True" DragEnter="DropZone_DragEnter" DragLeave="DropZone_DragLeave" Drop="DropZone_Drop">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Slip .fit-filer her" HorizontalAlignment="Center" FontFamily="Georgia" FontSize="22" FontWeight="Bold" Foreground="#17342E" />
+                <TextBlock Text="GPX-filer oprettes i samme mappe" HorizontalAlignment="Center" Margin="0,8,0,18" Foreground="#55706A" />
+                <Button Content="Vælg filer" HorizontalAlignment="Center" Click="SelectFiles_Click" />
+            </StackPanel>
+        </Border>
+
+        <ListBox Grid.Row="4" x:Name="ResultList" BorderThickness="0" Background="Transparent" FontSize="14" Foreground="#294840" />
+        <TextBlock Grid.Row="5" x:Name="StatusText" Text="Klar" Foreground="#55706A" />
+    </Grid>
+</Window>
