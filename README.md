@@ -48,6 +48,10 @@ dotnet publish .\Fit2Gpx.csproj `
 
 Start derefter `publish\win-x64\Fit2Gpx.exe`. GPX-filerne skrives ved siden af de originale FIT-filer; inputfilerne ændres ikke.
 
+### Udgivelser
+
+Når der oprettes et tag som `v1.0.0`, bygger GitHub automatisk en ZIP-fil med en færdig Windows-app og lægger den på en GitHub Release. Brugere skal derfor normalt bare hente ZIP-filen fra [Releases](https://github.com/Tntdruid/Fit2Gpx/releases), pakke den ud og starte `Fit2Gpx.exe`.
+
 ### Udvikling
 
 Projektet er en WPF-app, der målretter `net10.0-windows`. FIT-dekodningen leveres af [Garmin.FIT.Sdk](https://www.nuget.org/packages/Garmin.FIT.Sdk/).
@@ -100,64 +104,15 @@ dotnet publish .\Fit2Gpx.csproj `
 
 Start `publish\win-x64\Fit2Gpx.exe` after publishing. Output GPX files are written beside the original FIT files; input files are never modified.
 
+### Releases
+
+When a tag such as `v1.0.0` is created, GitHub automatically builds a ZIP file containing a ready-to-run Windows app and attaches it to a GitHub Release. Users can normally just download the ZIP from [Releases](https://github.com/Tntdruid/Fit2Gpx/releases), extract it and start `Fit2Gpx.exe`.
+
 ### Development
 
 The project is a WPF application targeting `net10.0-windows`. FIT decoding is provided by [Garmin.FIT.Sdk](https://www.nuget.org/packages/Garmin.FIT.Sdk/).
 
 Contributions are welcome. Please keep changes focused, build the project in Release mode, and describe the user-visible behavior in the pull request.
-
-## License
-
-Fit2Gpx is released under the MIT License. See [LICENSE](LICENSE).
-# Fit2Gpx
-
-A small Windows desktop app that converts Garmin FIT activity files to GPX.
-
-The app is in Danish, but the workflow is intentionally simple:
-
-1. Drop one or more `.fit` files onto the window, or choose them with **Vælg filer**.
-2. Fit2Gpx creates a `.gpx` file next to each input file.
-3. The result list reports the number of GPS points written or the error encountered.
-
-## Requirements
-
-- Windows 10 or later
-- [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) to build from source (the self-contained publish includes its own runtime)
-- Garmin FIT files containing record messages with latitude, longitude and timestamp data
-
-## Run from source
-
-Install the .NET 10 SDK, then run:
-
-```powershell
-dotnet run --project .\Fit2Gpx.csproj
-```
-
-Build a release:
-
-```powershell
-dotnet build .\Fit2Gpx.csproj --configuration Release
-```
-
-## Publish a standalone Windows build
-
-To create a folder that can run without a separate .NET installation:
-
-```powershell
-dotnet publish .\Fit2Gpx.csproj `
-  --configuration Release `
-  --runtime win-x64 `
-  --self-contained true `
-  --output .\publish\win-x64
-```
-
-Start `publish\win-x64\Fit2Gpx.exe` after publishing. The output `.gpx` files are written beside the original `.fit` files; input files are never modified.
-
-## Development
-
-The project is a WPF application targeting `net10.0-windows`. The FIT decoding is provided by [Garmin.FIT.Sdk](https://www.nuget.org/packages/Garmin.FIT.Sdk/).
-
-Contributions are welcome. For a change, please keep the scope focused, build the project in Release mode, and explain the user-visible behavior in the pull request.
 
 ## License
 
