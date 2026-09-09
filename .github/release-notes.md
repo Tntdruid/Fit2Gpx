@@ -8,6 +8,8 @@ Fit2Gpx konverterer Garmin FIT-aktiviteter til GPX-filer på Windows.
 
 - Træk en eller flere `.fit`-filer ind i appen
 - Vælg filer med filvælgeren
+- Skift mellem dansk og engelsk direkte i appen
+- Nyt app-ikon til vindue, genvej og EXE-fil
 - GPX-filer oprettes automatisk ved siden af originalerne
 - Inputfiler ændres ikke
 - Viser antal konverterede GPS-punkter og eventuelle fejl
@@ -30,6 +32,8 @@ Fit2Gpx converts Garmin FIT activities to GPX files on Windows.
 
 - Drop one or more `.fit` files into the app
 - Select files with the file picker
+- Switch between Danish and English directly in the app
+- New app icon for the window, shortcuts and EXE file
 - GPX files are created next to the originals automatically
 - Input files are never modified
 - Shows converted GPS point counts and any errors
