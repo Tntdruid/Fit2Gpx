@@ -64,7 +64,7 @@ Fit2Gpx is a small Windows desktop app that converts Garmin FIT activities to GP
 
 The workflow is intentionally simple:
 
-1. Drop one or more `.fit` files onto the window, or choose them with **Vælg filer**.
+1. Drop one or more `.fit` files onto the window, or choose them with **Choose File**.
 2. Fit2Gpx creates a `.gpx` file next to each input file.
 3. The result list reports the number of GPS points written or any error encountered.
 
