@@ -14,6 +14,29 @@ public partial class MainWindow : Window
         InitializeComponent();
     }
 
+    private bool IsEnglish => LanguageSelector.SelectedIndex == 1;
+
+    private void Window_Loaded(object sender, RoutedEventArgs e) => ApplyLanguage();
+
+    private void LanguageSelector_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    {
+        if (IsLoaded)
+        {
+            ApplyLanguage();
+        }
+    }
+
+    private void ApplyLanguage()
+    {
+        Title = IsEnglish ? "FIT to GPX" : "FIT til GPX";
+        AppTitleText.Text = Title;
+        SubtitleText.Text = IsEnglish ? "Convert Garmin activities to GPX files" : "Konvertér Garmin-aktiviteter til GPX-filer";
+        DropTitleText.Text = IsEnglish ? "Drop .fit files here" : "Slip .fit-filer her";
+        DropSubtitleText.Text = IsEnglish ? "GPX files are created in the same folder" : "GPX-filer oprettes i samme mappe";
+        SelectFilesButton.Content = IsEnglish ? "Choose files" : "Vælg filer";
+        StatusText.Text = IsEnglish ? "Ready" : "Klar";
+    }
+
     private void DropZone_DragEnter(object sender, DragEventArgs e)
     {
         e.Effects = HasFitFiles(e) ? DragDropEffects.Copy : DragDropEffects.None;
@@ -39,9 +62,9 @@ public partial class MainWindow : Window
     {
         var dialog = new Microsoft.Win32.OpenFileDialog
         {
-            Filter = "Garmin FIT-filer (*.fit)|*.fit",
+            Filter = IsEnglish ? "Garmin FIT files (*.fit)|*.fit" : "Garmin FIT-filer (*.fit)|*.fit",
             Multiselect = true,
-            Title = "Vælg FIT-filer"
+            Title = IsEnglish ? "Choose FIT files" : "Vælg FIT-filer"
         };
 
         if (dialog.ShowDialog(this) == true)
@@ -55,28 +78,31 @@ public partial class MainWindow : Window
         var fitFiles = files.Where(file => string.Equals(Path.GetExtension(file), ".fit", StringComparison.OrdinalIgnoreCase)).ToArray();
         if (fitFiles.Length == 0)
         {
-            StatusText.Text = "Ingen .fit-filer fundet.";
+            StatusText.Text = IsEnglish ? "No .fit files found." : "Ingen .fit-filer fundet.";
             return;
         }
 
         ResultList.Items.Clear();
-        StatusText.Text = $"Konverterer {fitFiles.Length} fil(er)...";
+        StatusText.Text = IsEnglish
+            ? $"Converting {fitFiles.Length} file(s)..."
+            : $"Konverterer {fitFiles.Length} fil(er)...";
 
-        var results = await Task.Run(() => fitFiles.Select(ConvertFile).ToArray());
+        var isEnglish = IsEnglish;
+        var results = await Task.Run(() => fitFiles.Select(file => ConvertFile(file, isEnglish)).ToArray());
         foreach (var result in results)
         {
             ResultList.Items.Add(result);
         }
 
-        StatusText.Text = results.All(result => result.StartsWith("OK"))
-            ? $"Færdig: {results.Length} fil(er) konverteret."
-            : "Færdig med fejl. Se listen nedenfor.";
+        StatusText.Text = results.All(result => result.StartsWith("OK", StringComparison.Ordinal))
+            ? (IsEnglish ? $"Done: {results.Length} file(s) converted." : $"Færdig: {results.Length} fil(er) konverteret.")
+            : (IsEnglish ? "Finished with errors. See the list below." : "Færdig med fejl. Se listen nedenfor.");
     }
 
     private static bool HasFitFiles(DragEventArgs e) =>
         e.Data.GetData(DataFormats.FileDrop) is string[] files && files.Any(file => string.Equals(Path.GetExtension(file), ".fit", StringComparison.OrdinalIgnoreCase));
 
-    private static string ConvertFile(string inputPath)
+    private static string ConvertFile(string inputPath, bool isEnglish)
     {
         try
         {
@@ -101,12 +127,18 @@ public partial class MainWindow : Window
             var outputPath = Path.ChangeExtension(inputPath, ".gpx");
             var pointCount = WriteGpx(outputPath, records);
             return pointCount == 0
-                ? $"FEJL  {Path.GetFileName(inputPath)} - ingen GPS-punkter fundet"
-                : $"OK    {Path.GetFileName(inputPath)} -> {Path.GetFileName(outputPath)} ({pointCount} punkter)";
+                ? (isEnglish
+                    ? $"ERROR  {Path.GetFileName(inputPath)} - no GPS points found"
+                    : $"FEJL  {Path.GetFileName(inputPath)} - ingen GPS-punkter fundet")
+                : (isEnglish
+                    ? $"OK    {Path.GetFileName(inputPath)} -> {Path.GetFileName(outputPath)} ({pointCount} points)"
+                    : $"OK    {Path.GetFileName(inputPath)} -> {Path.GetFileName(outputPath)} ({pointCount} punkter)");
         }
         catch (Exception exception)
         {
-            return $"FEJL  {Path.GetFileName(inputPath)} - {exception.Message}";
+            return isEnglish
+                ? $"ERROR  {Path.GetFileName(inputPath)} - {exception.Message}"
+                : $"FEJL  {Path.GetFileName(inputPath)} - {exception.Message}";
         }
     }
 
